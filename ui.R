@@ -6,7 +6,7 @@ shinyUI(fluidPage(
   
   titlePanel("Where do Colleges Recruit?"),
   
-  leafletOutput('myMap',height = "800"),
+  leafletOutput('myMap',height = "400"),
   
   absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
                 draggable = TRUE, top = 80, left = "auto", right = 30, bottom = "auto",

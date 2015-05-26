@@ -2,11 +2,12 @@ library(leaflet)
 library(shiny)
 
 df <- read.csv("data/data_flat.csv")
-df
+df$logo<-as.character(df$logo)
+
 shinyServer(
   function(input, output) {
     
-    map <- leaflet() %>% addTiles(urlTemplate = "http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png", attribution = NULL) %>% setView(lng = -98, lat = 39, zoom = 5)
+    map <- leaflet() %>% addTiles(urlTemplate = "http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png", attribution = NULL) %>% setView(lng = -98, lat = 39, zoom = 4)
     
     mf <- reactive({
       df_sub<-df[df$college==as.character(input$teamChooser),]
@@ -15,7 +16,7 @@ shinyServer(
       }
       map %>% addMarkers(lng=df_sub$lon_col[1], 
                                 lat=df_sub$lat_col[1],
-                                icon = JS(paste("L.icon({iconUrl: '",df_sub$logo[1],"',iconSize: [40, 40]})",sep='')))
+                                icon = list(iconUrl = df_sub$logo[1], iconSize = c(40, 40)))
     })
     
     output$myMap <- renderLeaflet(mf()) 
